@@ -197,15 +197,27 @@ Suggestions.prototype.getCandidates = function(callback) {
   };
   var results;
   if(this.options.filter){
-    results = fuzzy.filter(this.query, this.data, options);
-
-    results = results.map(function(item){
-      return {
-        original: item.original,
-        string: this.render(item.original, item.string)
-      };
-    }.bind(this))
-  }else{
+    if (this.query.length <= 2) {
+      // For 2 characters or less, do simple substring matching
+      results = this.data.filter(function(item) {
+        return this.getItemValue(item).toLowerCase().indexOf(this.query) > -1;
+      }.bind(this)).map(function(item) {
+        return {
+          original: item,
+          string: this.render(item)
+        };
+      }.bind(this));
+    } else {
+      // For 3+ characters, use fuzzy search
+      results = fuzzy.filter(this.query, this.data, options);
+      results = results.map(function(item){
+        return {
+          original: item.original,
+          string: this.render(item.original, item.string)
+        };
+      }.bind(this));
+    }
+  } else {
     results = this.data.map(function(d) {
       var renderedString = this.render(d);
       return {
