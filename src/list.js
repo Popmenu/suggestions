@@ -63,7 +63,15 @@ List.prototype.drawItem = function(item, active) {
   var li = document.createElement('li'),
     a = document.createElement('a');
 
-  if (active) li.className += ' active';
+  var id = 'suggestion-' + this.items.indexOf(item);
+ 
+   li.setAttribute('id', id);
+ 
+   if (active) {
+     this.element.setAttribute('aria-activedescendant', id);
+     li.className += ' active';
+     li.setAttribute('aria-selected', 'true');
+   }
 
   a.innerHTML = item.string;
 

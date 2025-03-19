@@ -18,6 +18,10 @@ var Suggestions = function(el, data, options) {
   this.data = data || [];
   this.list = new List(this);
 
+  this.el.setAttribute('role', 'combobox');
+  this.el.setAttribute('aria-autocomplete', 'list');
+  this.el.setAttribute('aria-controls', this.list.id);
+
   this.query = '';
   this.selected = null;
 
