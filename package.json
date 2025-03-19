@@ -8,7 +8,7 @@
     "build": "browserify index.js | uglifyjs -c -m > dist/suggestions.js",
     "lint": "eslint --no-eslintrc -c .eslintrc index.js src",
     "docs": "documentation --format=md > API.md",
-    "test": "npm run lint && browserify test/test.js | smokestack -b firefox | tap-status"
+    "test": "npm run lint && browserify test/test.js | smokestack -b chrome | tap-status"
   },
   "repository": {
     "type": "git",
