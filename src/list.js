@@ -2,12 +2,16 @@
 
 var List = function(component) {
   this.component = component;
+  this.id = 'suggestions-' + Math.random().toString(36).substring(2, 18);
   this.items = [];
   this.active = 0;
   this.wrapper = document.createElement('div');
   this.wrapper.className = 'suggestions-wrapper';
   this.element = document.createElement('ul');
   this.element.className = 'suggestions';
+  this.element.id = this.id;
+  this.element.setAttribute('role', 'listbox');
+  this.element.setAttribute('aria-label', 'Results');
   this.wrapper.appendChild(this.element);
 
   // selectingListItem is set to true in the time between the mousedown and mouseup when clicking an item in the list
@@ -63,9 +67,9 @@ List.prototype.drawItem = function(item, active) {
   var li = document.createElement('li'),
     a = document.createElement('a');
 
-  var id = 'suggestion-' + this.items.indexOf(item);
- 
-   li.setAttribute('id', id);
+  var id = this.id + '-' + this.items.indexOf(item);
+  li.setAttribute('id', id);
+  li.setAttribute('role', 'option');
  
    if (active) {
      this.element.setAttribute('aria-activedescendant', id);
@@ -74,6 +78,7 @@ List.prototype.drawItem = function(item, active) {
    }
 
   a.innerHTML = item.string;
+  a.setAttribute('aria-label', a.textContent);
 
   li.appendChild(a);
   this.element.appendChild(li);
